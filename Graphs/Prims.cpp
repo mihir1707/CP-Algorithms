@@ -1,0 +1,23 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Edge{
+    int node,w;
+};
+void prims(int nodes,vector<vector<Edge>> &adj){
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;
+    vector<int> vis(nodes,0);
+    pq.push({0,0});
+    int ans=0;
+    while(!pq.empty()){
+        int wt=pq.top().first;
+        int curr=pq.top().second;
+        pq.pop();
+        if(vis[curr]) continue;
+        vis[curr]=1;
+        ans+=wt;
+        for(auto& it:adj[curr]){
+            int child=it.node,w=it.w;
+            if(!vis[child]) pq.push({w,child});
+        }
+    }
+}

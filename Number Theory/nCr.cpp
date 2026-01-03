@@ -1,0 +1,27 @@
+const int N=1e6;
+vector<int> fact(N+1),invfact(N+1);
+int extended_gcd(int a,int b,int &x,int &y){
+    if(b==0) { x=1;y=0;return a; }
+    int x1,y1;
+    int d=extended_gcd(b,a%b,x1,y1);
+    x=y1;
+    y=x1-(a/b)*y1;
+    return d;
+}
+int modInv(int a){
+    int x,y;
+    int g=extended_gcd(a,mod,x,y);
+    if(g!=1) return -1;
+    x=(x%mod+mod)%mod;
+    return x;
+}
+void f(){
+    fact[0]=invfact[0]=1;
+    for(int i=1;i<=N;++i) fact[i]=(fact[i-1]*i)%mod;
+    invfact[N]=modInv(fact[N]);
+    for(int i=N-1;i>0;--i) invfact[i]=(invfact[i+1]*(i+1))%mod;
+}
+int nCr(int n,int r){
+    if(r>n) return 0;
+    return ((fact[n]*invfact[r])%mod*invfact[n-r])%mod;
+}
