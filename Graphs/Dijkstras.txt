@@ -1,0 +1,22 @@
+struct Edge{
+    int node,w;
+};
+void Dijkstras(int nodes,vector<vector<Edge>> &adj,int src){
+    vector<int> dist(nodes,INT_MAX);
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<>> pq;
+    dist[src]=0;
+    pq.push({0,src});
+    while(!pq.empty()){
+        int d=pq.top().first;
+        int curr=pq.top().second;
+        pq.pop();
+        if(d>dist[curr]) continue;
+        for(auto& it:adj[curr]){
+            int child=it.node,w=it.w;
+            if(dist[curr]+w<dist[child]){
+                dist[child]=w+dist[curr];
+                pq.push({dist[child],child});
+            }
+        }
+    }
+}

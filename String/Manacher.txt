@@ -1,0 +1,44 @@
+// Bounding Box Idea
+
+class Manacher {
+    vector<int> p;
+    public:
+    Manacher(string s){
+        build(s);
+    }
+
+    void build(string s){
+        string t;
+        for(auto& ch:s){
+            t+='#';
+            t+=ch;
+        }
+        run_manacher(t+'#');
+    }
+
+    void run_manacher(string s){
+        int n=s.size();
+        p.assign(n,1);
+        int l=1,r=1;
+        for(int i=1;i<n;++i){
+            p[i]=max(0,min(r-i,p[l+r-i]));
+            while(i-p[i]>=0 && i+p[i]<n && s[i+p[i]]==s[i-p[i]]) p[i]++;
+            if(i+p[i]>r){
+                l=i-p[i];
+                r=i+p[i];
+            }
+        }
+    }
+
+    int getLongestPalindrome(int center,bool odd){
+        int pos=2*center+1+(!odd);
+        return p[pos]-1;
+    }
+
+    bool checkPalindrome(int l,int r){
+        int center=(l+r)/2;
+        bool odd=(r-l)%2==0;
+        return getLongestPalindrome(center,odd)>=(r-l+1);
+    }
+
+};

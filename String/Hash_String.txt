@@ -1,0 +1,15 @@
+// s[0] + s[1]*p + s[2]*(p^2) + ... + s[n-1]*(p^(n-1)) % mod
+// a->1, b->2, ... , z->26
+// polynomial rolling hash function.
+// p=31 or p=53
+
+long long polyHash(string &s){
+    const int p=31;
+    const int mod=1e9 + 9;
+    long long val=0,pow=1;
+    for(auto& ch:s){
+        val=(val+(ch-'a'+1)*pow)%mod;
+        pow=(pow*p)%mod;
+    }
+    return val;
+}
