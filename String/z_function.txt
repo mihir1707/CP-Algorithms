@@ -1,0 +1,50 @@
+// length of longest substring starting at i which is also a prefix of the string
+
+class Zfun{
+    string s;
+    vector<int> z;
+
+public:
+    Zfun(string str){
+        s=str;
+        build();
+    }
+
+    void build(){
+        int n=s.size();
+        z.assign(n,0);
+        
+        int l=0,r=0;
+        for(int i=1;i<n;++i){
+            if(i<r){
+                z[i]=min(r-i,z[i-l]);
+            }
+
+            while(i+z[i]<n && s[z[i]]==s[i+z[i]]){
+                z[i]++;
+            }
+
+            if(i+z[i]>r){
+                l=i;
+                r=i+z[i];
+            }
+        }
+    }
+
+    vector<int> search(string text){
+        vector<int> pos;
+        int m=s.size();
+
+        string t=s+'#'+text;
+
+        Zfun(t);
+
+        for(int i=m+1;i<t.size();++i){
+            if(z[i]==m){
+                pos.push_back(i-m-1);
+            }
+        }
+
+        return pos;
+    }
+};
