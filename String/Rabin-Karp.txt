@@ -4,7 +4,7 @@ vector<int> RabinKarp(string &pattern, string &text){
     int n=pattern.size();
     int m=text.size();
 
-    const int p=31;
+    const int p=53;
     const int mod=1e9+9;
 
     vector<long long> power(max(n,m)+1);
